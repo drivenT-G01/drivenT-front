@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import DateFnsUtils from '@date-io/date-fns';
-import Typography from '@material-ui/core/Typography';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import CustomParseFormat from 'dayjs/plugin/customParseFormat';
@@ -130,7 +129,6 @@ export default function PersonalInformationForm() {
 
   return (
     <>
-      <StyledTypography variant="h4">Suas Informações</StyledTypography>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <FormWrapper onSubmit={handleSubmit}>
           <InputWrapper>
@@ -273,10 +271,6 @@ export default function PersonalInformationForm() {
     </>
   );
 }
-
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px!important;
-`;
 
 const SubmitContainer = styled.div`
   margin-top: 40px!important;

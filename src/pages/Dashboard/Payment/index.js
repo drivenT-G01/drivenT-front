@@ -1,16 +1,10 @@
-import Typography from '@material-ui/core/Typography';
-import styled from 'styled-components';
+import DashboardPageContainer from '../../../layouts/DashboardPageContainer';
 import FinishPayment from './FinishPayment';
 
 export default function Payment() {
   return (
-    <>
-      <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
+    <DashboardPageContainer title="Ingresso e pagamento">
       <FinishPayment />
-    </>
+    </DashboardPageContainer>
   );
 }
-
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px !important;
-`;

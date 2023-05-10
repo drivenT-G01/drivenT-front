@@ -5,7 +5,12 @@ import useToken from '../useToken';
 export default function useTicket() {
   const token = useToken();
 
-  const { data: ticket, loading: ticketLoading, error: ticketError } = useAsync(() => ticketApi.getUserTicket(token));
+  const {
+    data: ticket,
+    loading: ticketLoading,
+    error: ticketError,
+    act: ticketFunction,
+  } = useAsync(() => ticketApi.getUserTicket(token), false);
 
-  return { ticket, ticketLoading, ticketError };
+  return { ticket, ticketLoading, ticketError, ticketFunction };
 }

@@ -10,7 +10,7 @@ export default function useTicket() {
     loading: ticketLoading,
     error: ticketError,
     act: ticketFunction,
-  } = useAsync(() => ticketApi.getUserTicket(token), false);
+  } = useAsync(() => ticketApi.getUserTicket(token));
 
   return { ticket, ticketLoading, ticketError, ticketFunction };
 }

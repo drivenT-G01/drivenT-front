@@ -1,7 +1,9 @@
+import 'react-credit-cards/es/styles-compiled.css';
 import Cards from 'react-credit-cards';
 import Input from '../../../components/Form/Input';
 import { useState } from 'react';
 import styled from 'styled-components';
+import Button from '../../../components/Form/Button';
 
 export default function CreditCardForm() {
   const [number, setNumber] = useState('');
@@ -22,64 +24,75 @@ export default function CreditCardForm() {
 
   return (
     <Container>
-      <CardContainer>
-        <Cards
-          focused={focus}
-          {...{ number, expiry, name, cvc, issuer }}
-          callback={({ issuer }) => setIssuer(issuer)}
-        />
-      </CardContainer>
+      <FormContainer>
+        <CardContainer>
+          <Cards
+            focused={focus}
+            {...{ number, expiry, name, cvc, issuer }}
+            callback={({ issuer }) => setIssuer(issuer)}
+          />
+        </CardContainer>
 
-      <Form onBlur={onBlurHandler}>
-        <StyledInput
-          label="Number"
-          name="number"
-          type="text"
-          mask="9999 9999 9999 9999"
-          value={number}
-          onChange={(e) => onChangeHandler(e, setNumber)}
-          onFocus={onFocusHandler}
-        />
+        <Form onBlur={onBlurHandler}>
+          <StyledInput
+            label="Number"
+            name="number"
+            type="text"
+            mask="9999 9999 9999 9999"
+            value={number}
+            onChange={(e) => onChangeHandler(e, setNumber)}
+            onFocus={onFocusHandler}
+          />
 
-        <StyledInput
-          label="Name"
-          name="name"
-          type="text"
-          value={name}
-          onChange={(e) => onChangeHandler(e, setName)}
-          onFocus={onFocusHandler}
-        />
+          <StyledInput
+            label="Name"
+            name="name"
+            type="text"
+            value={name}
+            onChange={(e) => onChangeHandler(e, setName)}
+            onFocus={onFocusHandler}
+          />
 
-        <InputContainer>
-          <InputWrapper>
-            <StyledInput
-              label="Valid Thru"
-              name="expiry"
-              type="text"
-              mask="99/99"
-              value={expiry}
-              onChange={(e) => onChangeHandler(e, setExpiry)}
-              onFocus={onFocusHandler}
-            />
-          </InputWrapper>
-          <InputWrapper>
-            <StyledInput
-              label="CVC"
-              name="cvc"
-              type="text"
-              mask="999"
-              value={cvc}
-              onChange={(e) => onChangeHandler(e, setCvc)}
-              onFocus={onFocusHandler}
-            />
-          </InputWrapper>
-        </InputContainer>
-      </Form>
+          <InputContainer>
+            <InputWrapper>
+              <StyledInput
+                label="Valid Thru"
+                name="expiry"
+                type="text"
+                mask="99/99"
+                value={expiry}
+                onChange={(e) => onChangeHandler(e, setExpiry)}
+                onFocus={onFocusHandler}
+              />
+            </InputWrapper>
+            <InputWrapper>
+              <StyledInput
+                label="CVC"
+                name="cvc"
+                type="text"
+                mask="999"
+                value={cvc}
+                onChange={(e) => onChangeHandler(e, setCvc)}
+                onFocus={onFocusHandler}
+              />
+            </InputWrapper>
+          </InputContainer>
+        </Form>
+      </FormContainer>
+      <Button>Finalizar Pagamento</Button>
     </Container>
   );
 }
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const FormContainer = styled.div`
+  margin-bottom: 20px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;

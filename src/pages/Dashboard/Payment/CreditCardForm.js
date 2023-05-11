@@ -6,6 +6,7 @@ import styled from 'styled-components';
 export default function CreditCardForm() {
   const [number, setNumber] = useState('');
   const [expiry, setExpiry] = useState('');
+  const [issuer, setIssuer] = useState('');
   const [focus, setFocus] = useState('');
   const [name, setName] = useState('');
   const [cvc, setCvc] = useState('');
@@ -22,7 +23,11 @@ export default function CreditCardForm() {
   return (
     <Container>
       <CardContainer>
-        <Cards {...{ number, expiry, name, cvc }} focused={focus} />
+        <Cards
+          focused={focus}
+          {...{ number, expiry, name, cvc, issuer }}
+          callback={({ issuer }) => setIssuer(issuer)}
+        />
       </CardContainer>
 
       <Form onBlur={onBlurHandler}>

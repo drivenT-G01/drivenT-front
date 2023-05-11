@@ -1,20 +1,36 @@
 import 'react-credit-cards/es/styles-compiled.css';
 import Cards from 'react-credit-cards';
 import Input from '../../../components/Form/Input';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Button from '../../../components/Form/Button';
+import { useContext } from 'react';
+import TicketContext from '../../../contexts/TicketContext';
+import { toast } from 'react-toastify';
+import useProcessPayment from '../../../hooks/api/useProcessPayment';
 
 export default function CreditCardForm() {
-  const [number, setNumber] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [issuer, setIssuer] = useState('');
   const [focus, setFocus] = useState('');
-  const [name, setName] = useState('');
-  const [cvc, setCvc] = useState('');
+  const [cardData, setCardData] = useState(
+    new Map()
+      .set('issuer', '')
+      .set('number', '')
+      .set('name', '')
+      .set('expiry', '')
+      .set('cvc', '')
+  );
+
+  const {
+    ticket: { id: ticketId },
+    refreshTicket,
+  } = useContext(TicketContext);
+
+  const onChangeHandler = ({ target: { name, value } }) => {
+    if (name === 'number') value.replaceAll(' ', '');
+    setCardData(new Map(cardData.set(name, value)));
+  };
 
   const onFocusHandler = ({ target: { name } }) => setFocus(name);
-  const onChangeHandler = ({ target: { value } }, setValueFunction) => setValueFunction(value);
 
   const onBlurHandler = ({ currentTarget }) => {
     requestAnimationFrame(() => {
@@ -22,14 +38,44 @@ export default function CreditCardForm() {
     });
   };
 
+  const validateFields = () => {
+    const [issuer, number, name, expiry, cvc] = [...cardData.values()];
+
+    if (issuer === 'unknown' || number.length < 16) throw new Error('Número de cartão inválido!');
+    if (!name) throw new Error('Preencha o campo nome!');
+    if (!expiry || expiry.length < 5) throw new Error('Preencha o campo de validade!');
+    if (!cvc || cvc.length < 3) throw new Error('Preencha o campo CVC!');
+  };
+
+  const { paymentLoading, paymentFunction } = useProcessPayment();
+
+  const submit = useCallback(async() => {
+    try {
+      validateFields();
+    } catch (error) {
+      toast(error.message);
+      return;
+    }
+
+    const paymentData = { ticketId, cardData: Object.fromEntries(cardData) };
+
+    try {
+      await paymentFunction(paymentData);
+      toast('Pagamento feito!');
+      refreshTicket();
+    } catch (error) {
+      toast('Não foi possível realizar o pagamento!');
+    }
+  });
+
   return (
     <Container>
       <FormContainer>
         <CardContainer>
           <Cards
             focused={focus}
-            {...{ number, expiry, name, cvc, issuer }}
-            callback={({ issuer }) => setIssuer(issuer)}
+            {...Object.fromEntries(cardData)}
+            callback={({ issuer }) => setCardData(new Map(cardData.set('issuer', issuer)))}
           />
         </CardContainer>
 
@@ -39,18 +85,20 @@ export default function CreditCardForm() {
             name="number"
             type="text"
             mask="9999 9999 9999 9999"
-            value={number}
-            onChange={(e) => onChangeHandler(e, setNumber)}
+            value={cardData.get('number')}
+            onChange={onChangeHandler}
             onFocus={onFocusHandler}
+            disabled={paymentLoading}
           />
 
           <StyledInput
             label="Name"
             name="name"
             type="text"
-            value={name}
-            onChange={(e) => onChangeHandler(e, setName)}
+            value={cardData.get('name')}
+            onChange={onChangeHandler}
             onFocus={onFocusHandler}
+            disabled={paymentLoading}
           />
 
           <InputContainer>
@@ -60,9 +108,10 @@ export default function CreditCardForm() {
                 name="expiry"
                 type="text"
                 mask="99/99"
-                value={expiry}
-                onChange={(e) => onChangeHandler(e, setExpiry)}
+                value={cardData.get('expiry')}
+                onChange={onChangeHandler}
                 onFocus={onFocusHandler}
+                disabled={paymentLoading}
               />
             </InputWrapper>
             <InputWrapper>
@@ -71,15 +120,18 @@ export default function CreditCardForm() {
                 name="cvc"
                 type="text"
                 mask="999"
-                value={cvc}
-                onChange={(e) => onChangeHandler(e, setCvc)}
+                value={cardData.get('cvc')}
+                onChange={onChangeHandler}
                 onFocus={onFocusHandler}
+                disabled={paymentLoading}
               />
             </InputWrapper>
           </InputContainer>
         </Form>
       </FormContainer>
-      <Button>Finalizar Pagamento</Button>
+      <Button onClick={submit} disabled={paymentLoading}>
+        Finalizar Pagamento
+      </Button>
     </Container>
   );
 }
@@ -88,6 +140,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
+  @media screen and (max-width: 750px) {
+    align-items: center;
+  }
 `;
 
 const FormContainer = styled.div`

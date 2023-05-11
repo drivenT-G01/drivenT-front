@@ -10,6 +10,7 @@ export default function Input({
   value = '',
   onChange = () => 0,
   onFocus = () => 0,
+  disabled = false,
   ...props
 }) {
   return mask || maskChar ? (
@@ -19,13 +20,20 @@ export default function Input({
       value={value}
       onChange={onChange}
       onFocus={onFocus}
-      {...props}
+      disabled={disabled}
       {...(formatChars && { formatChars })}
     >
       {() => <StyledTextField {...props} variant={variant} />}
     </InputMask>
   ) : (
-    <StyledTextField {...props} value={value} onChange={onChange} onFocus={onFocus} variant={variant} />
+    <StyledTextField
+      {...props}
+      value={value}
+      onChange={onChange}
+      onFocus={onFocus}
+      disabled={disabled}
+      variant={variant}
+    />
   );
 }
 

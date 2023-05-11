@@ -19,6 +19,7 @@ export default function Input({
       value={value}
       onChange={onChange}
       onFocus={onFocus}
+      {...props}
       {...(formatChars && { formatChars })}
     >
       {() => <StyledTextField {...props} variant={variant} />}

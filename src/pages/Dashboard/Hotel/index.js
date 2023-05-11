@@ -1,3 +1,5 @@
+import DashboardPageContainer from '../../../layouts/DashboardPageContainer';
+
 export default function Hotel() {
-  return 'Hotel: Em breve!';
+  return <DashboardPageContainer title="Escolha de hotel e quarto"></DashboardPageContainer>;
 }

@@ -3,6 +3,7 @@ import Card from './Card';
 import CreditCardForm from './CreditCardForm';
 import { useContext } from 'react';
 import TicketContext from '../../../contexts/TicketContext';
+import TicketPaidMessage from './TicketPaidMessage';
 
 export default function FinishPayment() {
   const {
@@ -18,7 +19,7 @@ export default function FinishPayment() {
         <Card title={createTicketReviewText(isRemote, includesHotel)} description={`R$ ${price}`} stretch active></Card>
       </Section>
 
-      <Section title="Pagamento">{status === 'PAID' ? <>Pago!</> : <CreditCardForm />}</Section>
+      <Section title="Pagamento">{status === 'PAID' ? <TicketPaidMessage /> : <CreditCardForm />}</Section>
     </>
   );
 }

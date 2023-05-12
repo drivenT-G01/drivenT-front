@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import "./reset.css";
-import { useState } from "react";
+import styled from 'styled-components';
+import { useState } from 'react';
+
 export default function MakeTheReserve() {
-  const [selectedTypeOfPayment, setSelectedTypeOfPayment] = useState(false);
+  const [setSelectedTypeOfPayment] = useState(false);
   const [endOfPayment, setEndOfPayment] = useState(false);
   const [value, setValue] = useState(0);
   return (
@@ -14,7 +14,7 @@ export default function MakeTheReserve() {
         <BoxSelect
           onClick={() => {
             setValue(250);
-            setEndOfPayment(false)
+            setEndOfPayment(false);
             setSelectedTypeOfPayment(true);
           }}
         >
@@ -36,9 +36,7 @@ export default function MakeTheReserve() {
       {endOfPayment && (
         <>
           <h2>
-            Fechado! O total ficou{" "}
-            <span style={{ fontWeight: "bold" }}>R$ {value}.</span> Agora só
-            confirmar:
+            Fechado! O total ficou <span style={{ fontWeight: 'bold' }}>R$ {value}.</span> Agora só confirmar:
           </h2>
           <button className="finishButton">RESERVAR INGRESSO</button>
         </>
@@ -58,13 +56,13 @@ const StyledPayment = styled.div`
   margin-top: 34px;
 
   h1 {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 34px;
   }
   h2 {
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
@@ -88,11 +86,10 @@ const StyledPayment = styled.div`
     font-size: 12px;
     line-height: 16px;
     text-align: center;
-    
   }
   .finishButton:hover {
     color: rgba(255, 255, 255, 1);
-    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+    box-shadow: 0 5px 15px rgba(145, 92, 182, 0.4);
   }
   .boxClasses {
     display: flex;
@@ -109,7 +106,7 @@ const BoxSelect = styled.div`
   gap: 5px;
   box-sizing: border-box;
 
-  background-color: ${(props) => (props.selected === true ? "" : "#ffffff")};
+  background-color: ${(props) => (props.selected === true ? '' : '#ffffff')};
 
   width: 145px;
   height: 145px;
@@ -118,13 +115,13 @@ const BoxSelect = styled.div`
   border-radius: 20px;
 
   h3 {
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
   }
   h4 {
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 14px;

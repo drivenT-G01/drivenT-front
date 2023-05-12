@@ -2,7 +2,7 @@ import DashboardPageContainer from '../../../layouts/DashboardPageContainer';
 import FinishPayment from './FinishPayment';
 import { useContext } from 'react';
 import TicketContext from '../../../contexts/TicketContext';
-import MakeTheReserve from './makeTheReserve';
+import MakeTheReserve from './MakeTheReserve';
 
 export default function Payment() {
   const { ticket, ticketLoading } = useContext(TicketContext);

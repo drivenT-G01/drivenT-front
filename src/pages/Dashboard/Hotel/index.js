@@ -17,9 +17,9 @@ export default function Hotel() {
         <>
           <TicketStatus ticket={ticket} />
           <IncludesHotel ticket={ticket} />
+          <SelectHotel />
         </>
       )}
-      
     </DashboardPageContainer>
   );
 }

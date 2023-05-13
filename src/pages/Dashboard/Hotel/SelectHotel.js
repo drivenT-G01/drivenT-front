@@ -7,7 +7,7 @@ export default function SelectHotel({ ticket }) {
   if (hotelsLoading) return <div>Loading...</div>;
   if (!hotels || !hotels.length) return <div>Nenhum hotel encontrado</div>;
 
-  return(ticket.status === 'PAID')&& (
+  return(ticket?.status === 'PAID')&& (
     <>
       <h1>Primeiro, escolha seu hotel</h1>
       <HotelsList hotels = {hotels}></HotelsList>

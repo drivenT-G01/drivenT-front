@@ -23,9 +23,10 @@ const HotelCardContainer = styled.main`
   height: 14rem;
   align-items: center;
   flex-direction: column;
-  background-color: #ebebeb;
+  background-color: ${({ selected }) => (selected ? '#FFEED2' : '#ebebeb')};
   margin-right: 1rem;
   border-radius: 10px;
+  cursor: pointer;
 
   h1 {
     font-family: 'Roboto';
@@ -34,6 +35,8 @@ const HotelCardContainer = styled.main`
     line-height: 24px;
     color: #343434;
     margin-top: 10px;
+    align-self: flex-start;
+    margin-left: 15px;
   }
   h2 {
     font-family: 'Roboto';
@@ -53,31 +56,3 @@ const Image = styled.img`
 const HotelDetailsContainer = styled.section`
   width: auto;
 `;
-
-// height: 264px;
-//   width: 196px;
-
-//   margin-right: 24px;
-
-//   display: flex;
-//   justify-content: space-evenly;
-//   flex-direction: column;
-
-//   padding-left: 13px;
-
-//   border-radius: 20px;
-//   border: 1px solid #cecece;
-
-//   background-color: ${({ selected }) => (selected ? '#FFEED2' : '#ffffff')};
-
-//   font-size: 14px;
-//   color: #898989;
-
-//   cursor: pointer;
-
-//   p {
-//     color: #454545;
-//     margin-bottom: 8px;
-//     font-size: 12px;
-//     padding-top: 2px;
-//   }

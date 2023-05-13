@@ -1,4 +1,4 @@
-import * as hotelsApi from '../../pages/Dashboard/Payment/services/hotelApi';
+import * as hotelsApi from '../../services/hotelApi';
 import useAsync from '../useAsync';
 import useToken from '../useToken';
 

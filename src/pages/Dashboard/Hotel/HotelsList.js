@@ -1,15 +1,20 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Section from '../../../components/Dashboard/Section';
 import HotelCard from './HotelCard';
 import RoomCard from './RoomCard';
+import HotelsByIdContext from '../../../contexts/HotelByIdContext';
 
 export default function HotelsList({ hotels }) {
+  const { hotelById, hotelbyIdLoading } = useContext(HotelsByIdContext);
   const [hotelClicked, setHotelClicked] = useState(null);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showReservationButton, setShowReservationButton] = useState(false);
 
+  console.log(hotelById);
+
+  if (hotelbyIdLoading) return <div>Loading...</div>; 
   const rooms = [
     { id: 1, name: 101, vacancies: 3, bookings: 1 },
     { id: 2, name: 102, vacancies: 2, bookings: 0 },

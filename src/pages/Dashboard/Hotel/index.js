@@ -5,23 +5,26 @@ import TicketStatus from './TicketStatus';
 import IncludesHotel from './IncludesHotel';
 import SelectHotel from './SelectHotel';
 import { HotelsProvider } from '../../../contexts/HotelsContext';
+import { HotelsByIdProvider } from '../../../contexts/HotelByIdContext';
 
 export default function Hotel() {
   const { ticket, ticketLoading } = useContext(TicketContext);
 
   return (
     <HotelsProvider>
-      <DashboardPageContainer title="Escolha de hotel e quarto">
-        {ticketLoading ? (
-          <>Loading...</>
-        ) : (
-          <>
-            <TicketStatus ticket={ticket} />
-            <IncludesHotel ticket={ticket} />
-            <SelectHotel ticket={ticket}></SelectHotel>
-          </>
-        )}
-      </DashboardPageContainer>
+      <HotelsByIdProvider>
+        <DashboardPageContainer title="Escolha de hotel e quarto">
+          {ticketLoading ? (
+            <>Loading...</>
+          ) : (
+            <>
+              <TicketStatus ticket={ticket} />
+              <IncludesHotel ticket={ticket} />
+              <SelectHotel ticket={ticket}></SelectHotel>
+            </>
+          )}
+        </DashboardPageContainer>
+      </HotelsByIdProvider>
     </HotelsProvider>
   );
 }

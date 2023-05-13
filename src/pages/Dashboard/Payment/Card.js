@@ -1,19 +1,8 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function Card({ title, description = '', disableSelection = false, stretch = false }) {
-  const [isSelected, setIsSelected] = useState(false);
-
+export default function Card({ title, description = '', active = false, stretch = false }) {
   return (
-    <Container
-      activeColor={isSelected && '#FFEED2'}
-      customWidth={stretch && '290px'}
-      customHeight={stretch && '108px'}
-      onClick={() => {
-        if (disableSelection) return;
-        setIsSelected(!isSelected);
-      }}
-    >
+    <Container activeColor={active && '#FFEED2'} customWidth={stretch && '290px'} customHeight={stretch && '108px'}>
       <p>{title}</p>
       {description}
     </Container>

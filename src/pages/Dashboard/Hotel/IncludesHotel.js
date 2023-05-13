@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export default function IncludesHotel({ ticket: { TicketType: { isRemote, includesHotel } } }) {
   return (isRemote || !includesHotel) ? (
-    <IncludesHotelContainer>
+    <IncludesHotelContainer>  
       <Text>Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades</Text>
     </IncludesHotelContainer>
   ): null;

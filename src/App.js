@@ -16,6 +16,7 @@ import { UserProvider } from './contexts/UserContext';
 import { TicketProvider } from './contexts/TicketContext';
 
 import useToken from './hooks/useToken';
+import { HotelsProvider } from './contexts/HotelsContext';
 
 export default function App() {
   return (

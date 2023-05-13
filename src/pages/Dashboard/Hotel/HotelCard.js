@@ -1,70 +1,83 @@
 import styled from 'styled-components';
+import AcomodationTypes from './AcomodationTypes';
+import Availability from './Availability';
 
-export default function HotelCard({ name, selected, onClick }) {
+export default function HotelCard({ hotel, selected, onClick }) {
   return (
-    <Container selected={selected} onClick={onClick}>
-      <HotelImage>
-        <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8aG90ZWx8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" />
-      </HotelImage>
-      <HotelName>
-        <h1>{name}</h1>
-      </HotelName>
-      <Accommodations>
-        <h2>Tipos de acomodações:</h2>
-        <p>Single, Double, Triple</p>
-      </Accommodations>
-      <Vacancies>
-        <h2>Vagas Disponiveis:</h2>
-        <p>23</p>
-      </Vacancies>
-    </Container>
+    <HotelCardContainer selected={selected} onClick={onClick}>
+      <Image src={hotel.image}></Image>
+      <h1>{hotel.name}</h1>
+      <HotelDetailsContainer>
+        <h2>Tipos de acomodação</h2>
+        <AcomodationTypes></AcomodationTypes>
+        <h2>Vagas disponiveis</h2>
+        <Availability hotel={hotel}></Availability>
+      </HotelDetailsContainer>
+    </HotelCardContainer>
   );
 }
 
-const Container = styled.div`
-  height: 264px;
-  width: 196px;
-
-  margin-right: 24px;
-
+const HotelCardContainer = styled.main`
   display: flex;
-  justify-content: space-evenly;
+  width: 10rem;
+  height: 14rem;
+  align-items: center;
   flex-direction: column;
+  background-color: #ebebeb;
+  margin-right: 1rem;
+  border-radius: 10px;
 
-  padding-left: 13px;
-
-  border-radius: 20px;
-  border: 1px solid #cecece;
-
-  background-color: ${({ selected }) => (selected ? '#FFEED2' : '#ffffff')};
-
-  font-size: 14px;
-  color: #898989;
-
-  cursor: pointer;
-
-  p {
-    color: #454545;
-    margin-bottom: 8px;
-    font-size: 12px;
-    padding-top: 2px;
-  }
   h1 {
-    color: #000000;
-    font-size: 22px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 1.1rem;
+    line-height: 24px;
+    color: #343434;
+    margin-top: 10px;
   }
   h2 {
-    color: #000000;
-    font-size: 14px;
-  }
-  img {
-    width: 168px;
-    height: 109px;
-    border-radius: 10px;
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 0.8rem;
+    line-height: 24px;
+    color: #3c3c3c;
   }
 `;
 
-const HotelImage = styled.div``;
-const HotelName = styled.div``;
-const Accommodations = styled.div``;
-const Vacancies = styled.div``;
+const Image = styled.img`
+  width: 80%;
+  border-radius: 10px;
+  margin-top: 16px;
+`;
+
+const HotelDetailsContainer = styled.section`
+  width: auto;
+`;
+
+// height: 264px;
+//   width: 196px;
+
+//   margin-right: 24px;
+
+//   display: flex;
+//   justify-content: space-evenly;
+//   flex-direction: column;
+
+//   padding-left: 13px;
+
+//   border-radius: 20px;
+//   border: 1px solid #cecece;
+
+//   background-color: ${({ selected }) => (selected ? '#FFEED2' : '#ffffff')};
+
+//   font-size: 14px;
+//   color: #898989;
+
+//   cursor: pointer;
+
+//   p {
+//     color: #454545;
+//     margin-bottom: 8px;
+//     font-size: 12px;
+//     padding-top: 2px;
+//   }

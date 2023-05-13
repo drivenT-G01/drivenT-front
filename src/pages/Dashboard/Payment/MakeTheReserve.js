@@ -1,13 +1,30 @@
-import { useState } from 'react';
+import { useContext, useCallback, useState } from 'react';
 import Section from '../../../components/Dashboard/Section';
 import Card from './Card';
-import useTicketType from '../../../hooks/api/useTicketTypes';
+import useTicketTypes from '../../../hooks/api/useTicketTypes';
 import Button from '../../../components/Form/Button';
+import useReserveTicket from '../../../hooks/api/useReserveTicket';
+import TicketContext from '../../../contexts/TicketContext';
+import { toast } from 'react-toastify';
 
 export default function MakeTheReserve() {
   const [selectedTicketType, setSelectedTicketType] = useState(null);
   const [selectedTicketMode, setSelectedTicketMode] = useState(null);
-  const { ticketTypes, ticketTypesLoading } = useTicketType();
+
+  const { refreshTicket } = useContext(TicketContext);
+
+  const { reserveTicketFunction, reserveTicketLoading } = useReserveTicket();
+  const { ticketTypes, ticketTypesLoading } = useTicketTypes();
+
+  const submit = useCallback(async() => {
+    try {
+      await reserveTicketFunction(selectedTicketType.id);
+      toast('Reserva de ticket feita!');
+      refreshTicket();
+    } catch (error) {
+      toast('Não foi possível realizar a reserva do ticket!');
+    }
+  });
 
   return (
     <>
@@ -72,7 +89,9 @@ export default function MakeTheReserve() {
                 </>
               }
             >
-              <Button>Reservar Ingresso</Button>
+              <Button disabled={reserveTicketLoading} onClick={submit}>
+                Reservar Ingresso
+              </Button>
             </Section>
           )}
         </>

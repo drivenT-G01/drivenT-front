@@ -24,4 +24,5 @@ const Container = styled.section`
 
 const ChildrenContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;

@@ -21,9 +21,7 @@ export default function Hotel() {
             <SelectHotel ticket={ticket}></SelectHotel>
           </>
         )}
-
       </DashboardPageContainer>
     </HotelsProvider>
-
   );
 }

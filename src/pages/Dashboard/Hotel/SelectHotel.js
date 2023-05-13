@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import HotelsContext from '../../../contexts/HotelsContext';
 import HotelsList from './HotelsList';
 
@@ -7,9 +7,11 @@ export default function SelectHotel({ ticket }) {
   if (hotelsLoading) return <div>Loading...</div>;
   if (!hotels || !hotels.length) return <div>Nenhum hotel encontrado</div>;
 
-  return(ticket?.status === 'PAID')&& (
-    <>
-      <h1>Primeiro, escolha seu hotel</h1>
-      <HotelsList hotels = {hotels}></HotelsList>
-    </>);
+  return (
+    ticket.status === 'PAID' && (
+      <>
+        <HotelsList hotels={hotels}></HotelsList>
+      </>
+    )
+  );
 }

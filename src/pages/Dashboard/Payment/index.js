@@ -13,7 +13,7 @@ export default function Payment() {
 
   return (
     <DashboardPageContainer title="Ingresso e pagamento" message={!enrollment && NoEnrollmentMessage}>
-      {ticketLoading ? <>Loading</> : <>{ticket ? <FinishPayment {...ticket} /> : <MakeTheReserve />}</>}
+      {ticketLoading ? <>Loading</> : <>{ticket ? <FinishPayment /> : <MakeTheReserve />}</>}
     </DashboardPageContainer>
   );
 }

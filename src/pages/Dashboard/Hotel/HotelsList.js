@@ -3,43 +3,44 @@ import { useContext, useState } from 'react';
 import Section from '../../../components/Dashboard/Section';
 import HotelCard from './HotelCard';
 import RoomCard from './RoomCard';
-import HotelsByIdContext from '../../../contexts/HotelByIdContext';
+import useHotelsById from '../../../hooks/api/useHotelsById';
+import { toast } from 'react-toastify';
 
 export default function HotelsList({ hotels }) {
-  const { hotelById, hotelbyIdLoading } = useContext(HotelsByIdContext);
+  const { hotelbyIdLoading, hotelByIdFunction } = useHotelsById();
+  const [rooms, setRooms] = useState([]);
   const [hotelClicked, setHotelClicked] = useState(null);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showReservationButton, setShowReservationButton] = useState(false);
 
-  console.log(hotelById);
+  if (hotelbyIdLoading) return <div>Loading...</div>;
 
-  if (hotelbyIdLoading) return <div>Loading...</div>; 
-  const rooms = [
-    { id: 1, name: 101, vacancies: 3, bookings: 1 },
-    { id: 2, name: 102, vacancies: 2, bookings: 0 },
-    { id: 3, name: 103, vacancies: 1, bookings: 1 },
-    { id: 4, name: 104, vacancies: 4, bookings: 2 },
-  ];
-
-  const handleHotelClick = (hotelId) => {
+  async function handleHotelClick(hotelId) {
     setSelectedHotel(hotelId);
     setHotelClicked(true);
     setSelectedRoom(null);
-    setShowReservationButton(false); // Redefinir a exibição do botão de reserva ao trocar de hotel
-  };
+    setShowReservationButton(false);
+
+    try {
+      const response = await hotelByIdFunction(hotelId);
+      setRooms(response.Rooms);
+    } catch (error) {
+      toast('Ocorreu algum problema na hora de carregar os quartos, por favor, recarregue a página');
+    }
+  }
 
   const handleRoomClick = (roomId) => {
     const selectedRoom = rooms.find((room) => room.id === roomId);
-    if (selectedRoom.bookings < selectedRoom.vacancies) {
+    if (selectedRoom.Booking.length < selectedRoom.capacity) {
       setSelectedRoom(roomId);
       setShowReservationButton(true);
     }
   };
 
   const handleReservationClick = () => {
-    // Lógica para realizar a reserva do quarto
-    console.log('Reserva efetuada para o quarto', selectedRoom);
+    const room = rooms.find((room) => room.id === selectedRoom);
+    console.log('Reserva efetuada para o quarto', room.name);
   };
 
   return (
@@ -62,10 +63,10 @@ export default function HotelsList({ hotels }) {
               <RoomCard
                 key={room.id}
                 name={room.name}
-                vacancies={room.vacancies}
-                bookings={room.bookings}
+                capacity={room.capacity}
+                bookings={room.Booking.length}
                 selected={selectedRoom === room.id}
-                disabled={room.bookings === room.vacancies}
+                disabled={room.Booking.length === room.capacity}
                 onClick={() => handleRoomClick(room.id)}
               />
             ))}

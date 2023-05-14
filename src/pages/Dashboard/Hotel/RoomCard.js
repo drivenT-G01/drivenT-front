@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { HiUser, HiOutlineUser } from 'react-icons/hi';
-export default function RoomCard({ name, vacancies, bookings, selected, disabled, onClick }) {
+export default function RoomCard({ name, capacity, bookings, selected, disabled, onClick }) {
   const renderVacanciesIcons = () => {
     const icons = [];
-    for (let i = 0; i < vacancies - bookings; i++) {
+    for (let i = 0; i < capacity - bookings; i++) {
       icons.push(
         <HiOutlineUser
           key={i}
@@ -12,7 +12,7 @@ export default function RoomCard({ name, vacancies, bookings, selected, disabled
         />
       );
     }
-    for (let i = vacancies; i < bookings + vacancies; i++) {
+    for (let i = capacity; i < bookings + capacity; i++) {
       icons.push(<HiUser key={i} />);
     }
     return icons;

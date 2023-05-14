@@ -1,8 +1,13 @@
 import styled from 'styled-components';
 
-export default function Card({ title, description = '', active = false, stretch = false }) {
+export default function Card({ title, description = '', onClickHandler = () => {}, active = false, stretch = false }) {
   return (
-    <Container activeColor={active && '#FFEED2'} customWidth={stretch && '290px'} customHeight={stretch && '108px'}>
+    <Container
+      activeColor={active && '#FFEED2'}
+      customWidth={stretch && '290px'}
+      customHeight={stretch && '108px'}
+      onClick={onClickHandler}
+    >
       <p>{title}</p>
       {description}
     </Container>

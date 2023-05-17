@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import qs from 'query-string';
 
 import AuthLayout from '../../layouts/Auth';
 
@@ -8,12 +9,12 @@ import Input from '../../components/Form/Input';
 import Button from '../../components/Form/Button';
 import Link from '../../components/Link';
 import { Row, Title, Label } from '../../components/Auth';
+import OAuthButton from '../../components/Form/OAuthButton';
 
 import EventInfoContext from '../../contexts/EventInfoContext';
 import UserContext from '../../contexts/UserContext';
 
 import useSignIn from '../../hooks/api/useSignIn';
-import OAuthButton from '../../components/Form/OAuthButton';
 
 import gitHubLogo from '../../assets/images/github-mark-white.svg';
 
@@ -41,6 +42,22 @@ export default function SignIn() {
     }
   }
 
+  async function handleGitHubOAuth() {
+    const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
+
+    const params = {
+      response_type: 'code',
+      scope: 'user',
+      client_id: process.env.REACT_APP_GITHUB_CLIENT_ID,
+      redirect_uri: process.env.REACT_APP_GITHUB_REDIRECT_URL,
+    };
+
+    const queryString = qs.stringify(params);
+    const authUrl = `${GITHUB_URL}?${queryString}`;
+
+    window.location.href = authUrl;
+  }
+
   return (
     <AuthLayout background={eventInfo.backgroundImageUrl}>
       <Row>
@@ -61,7 +78,13 @@ export default function SignIn() {
           <Button type="submit" color="primary" fullWidth disabled={loadingSignIn}>
             Entrar
           </Button>
-          <OAuthButton bgcolor="#222222" color="white" logoImage={gitHubLogo} fullWidth>
+          <OAuthButton
+            bgcolor="#222222"
+            color="white"
+            logoImage={gitHubLogo}
+            fullWidth
+            onClickHandler={handleGitHubOAuth}
+          >
             Entrar com GitHUb
           </OAuthButton>
         </form>

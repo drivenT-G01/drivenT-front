@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import qs from 'query-string';
@@ -15,6 +15,7 @@ import EventInfoContext from '../../contexts/EventInfoContext';
 import UserContext from '../../contexts/UserContext';
 
 import useSignIn from '../../hooks/api/useSignIn';
+import useGitHubSignIn from '../../hooks/api/useGitHubSignIn';
 
 import gitHubLogo from '../../assets/images/github-mark-white.svg';
 
@@ -23,11 +24,26 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
 
   const { loadingSignIn, signIn } = useSignIn();
+  const { gitHubSignInLoading, gitHubSignIn } = useGitHubSignIn();
 
   const { eventInfo } = useContext(EventInfoContext);
   const { setUserData } = useContext(UserContext);
 
   const navigate = useNavigate();
+
+  useEffect(async() => {
+    const { code } = qs.parseUrl(window.location.href).query;
+    if (!code) return;
+
+    try {
+      const userData = await gitHubSignIn(code);
+      setUserData(userData);
+      toast('Login realizado com sucesso!');
+      navigate('/dashboard');
+    } catch (err) {
+      toast('Não foi possível fazer o login!');
+    }
+  }, []);
 
   async function submit(event) {
     event.preventDefault();
@@ -75,15 +91,16 @@ export default function SignIn() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit" color="primary" fullWidth disabled={loadingSignIn}>
+          <Button type="submit" color="primary" fullWidth disabled={loadingSignIn || gitHubSignInLoading}>
             Entrar
           </Button>
           <OAuthButton
             bgcolor="#222222"
-            color="white"
+            textcolor="white"
             logoImage={gitHubLogo}
             fullWidth
             onClickHandler={handleGitHubOAuth}
+            disabled={loadingSignIn || gitHubSignInLoading}
           >
             Entrar com GitHUb
           </OAuthButton>

@@ -1,18 +1,35 @@
 import styled from 'styled-components';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Section from '../../../components/Dashboard/Section';
 import HotelCard from './HotelCard';
 import RoomCard from './RoomCard';
 import useHotelsById from '../../../hooks/api/useHotelsById';
 import { toast } from 'react-toastify';
+import UserContext from '../../../contexts/UserContext';
+import useHasBooking from '../../../hooks/api/useHasBooking';
+import HasBookingCard from './HasBookingCard';
 
-export default function HotelsList({ hotels }) {
+export default function HotelsList({ hotels, ticket }) {
   const { hotelbyIdLoading, hotelByIdFunction } = useHotelsById();
+  const { userHasBookingLoading, userHasBookingFunction } = useHasBooking();
+  const [bookingData, setBookingData] = useState();
+  const [hasBooking, setHasBooking] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [hotelClicked, setHotelClicked] = useState(null);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showReservationButton, setShowReservationButton] = useState(false);
+  const { userData } = useContext(UserContext);
+
+  useEffect(async() => {
+    try {
+      const response = await userHasBookingFunction(userData.user.id);
+      setBookingData(response);
+      setHasBooking(true);
+    } catch (error) {
+      toast('User has no booking');
+    }
+  }, []);
 
   if (hotelbyIdLoading) return <div>Loading...</div>;
 
@@ -45,40 +62,46 @@ export default function HotelsList({ hotels }) {
 
   return (
     <>
-      <Section title="Primeiro, escolha seu hotel">
-        {hotels.map((hotel) => (
-          <HotelCard
-            key={hotel.id}
-            name={hotel.name}
-            selected={selectedHotel === hotel.id}
-            onClick={() => handleHotelClick(hotel.id)}
-            hotel={hotel}
-          />
-        ))}
-      </Section>
-      {hotelClicked ? (
+      {hasBooking ? (
+        <HasBookingCard booking={bookingData} />
+      ) : (
         <>
-          <Section title="Perfeito, agora escolha o quarto">
-            {rooms.map((room) => (
-              <RoomCard
-                key={room.id}
-                name={room.name}
-                capacity={room.capacity}
-                bookings={room.Booking.length}
-                selected={selectedRoom === room.id}
-                disabled={room.Booking.length === room.capacity}
-                onClick={() => handleRoomClick(room.id)}
+          <Section title="Primeiro, escolha seu hotel">
+            {hotels.map((hotel) => (
+              <HotelCard
+                key={hotel.id}
+                name={hotel.name}
+                selected={selectedHotel === hotel.id}
+                onClick={() => handleHotelClick(hotel.id)}
+                hotel={hotel}
               />
             ))}
           </Section>
-          {showReservationButton && (
-            <Section>
-              <Button onClick={handleReservationClick}>Reservar Quarto</Button>
-            </Section>
+          {hotelClicked ? (
+            <>
+              <Section title="Perfeito, agora escolha o quarto">
+                {rooms.map((room) => (
+                  <RoomCard
+                    key={room.id}
+                    name={room.name}
+                    capacity={room.capacity}
+                    bookings={room.Booking.length}
+                    selected={selectedRoom === room.id}
+                    disabled={room.Booking.length === room.capacity}
+                    onClick={() => handleRoomClick(room.id)}
+                  />
+                ))}
+              </Section>
+              {showReservationButton && (
+                <Section>
+                  <Button onClick={handleReservationClick}>Reservar Quarto</Button>
+                </Section>
+              )}
+            </>
+          ) : (
+            <></>
           )}
         </>
-      ) : (
-        <></>
       )}
     </>
   );

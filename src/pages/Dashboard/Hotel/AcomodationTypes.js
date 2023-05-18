@@ -12,13 +12,13 @@ export default function AcomodationTypes() {
     hotel.Rooms.forEach((room) => {
       capacities[room.capacity] = (capacities[room.capacity] || 0) + 1;
     });
-  }); //O(n²) 
+  }); //O(n²)
 
   const capacityLabels = ['Single', 'Double', 'Triple'];
   let capacityString = '';
   for (let i = 0; i < capacityLabels.length; i++) {
     const capacityLabel = capacityLabels[i];
-    if (capacities[i+1]) {
+    if (capacities[i + 1]) {
       capacityString += capacityLabel + ' ';
     }
   }
@@ -28,10 +28,9 @@ export default function AcomodationTypes() {
 }
 
 const AcomodationTypesContainer = styled.h3`
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    line-height: 14px;
-    color: #3C3C3C;
-    font-size: 0.6rem;
-
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  line-height: 14px;
+  color: #3c3c3c;
+  font-size: 0.6rem;
 `;

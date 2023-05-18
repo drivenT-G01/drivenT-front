@@ -10,7 +10,7 @@ export default function SelectHotel({ ticket }) {
   return (
     ticket.status === 'PAID' && (
       <>
-        <HotelsList hotels={hotels}></HotelsList>
+        <HotelsList hotels={hotels} ticket={ticket}></HotelsList>
       </>
     )
   );

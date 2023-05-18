@@ -1,6 +1,7 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import qs from 'query-string';
 
 import AuthLayout from '../../layouts/Auth';
 
@@ -8,12 +9,13 @@ import Input from '../../components/Form/Input';
 import Button from '../../components/Form/Button';
 import Link from '../../components/Link';
 import { Row, Title, Label } from '../../components/Auth';
+import OAuthButton from '../../components/Form/OAuthButton';
 
 import EventInfoContext from '../../contexts/EventInfoContext';
 import UserContext from '../../contexts/UserContext';
 
 import useSignIn from '../../hooks/api/useSignIn';
-import OAuthButton from '../../components/Form/OAuthButton';
+import useGitHubSignIn from '../../hooks/api/useGitHubSignIn';
 
 import gitHubLogo from '../../assets/images/github-mark-white.svg';
 
@@ -22,11 +24,26 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
 
   const { loadingSignIn, signIn } = useSignIn();
+  const { gitHubSignInLoading, gitHubSignIn } = useGitHubSignIn();
 
   const { eventInfo } = useContext(EventInfoContext);
   const { setUserData } = useContext(UserContext);
 
   const navigate = useNavigate();
+
+  useEffect(async() => {
+    const { code } = qs.parseUrl(window.location.href).query;
+    if (!code) return;
+
+    try {
+      const userData = await gitHubSignIn(code);
+      setUserData(userData);
+      toast('Login realizado com sucesso!');
+      navigate('/dashboard');
+    } catch (err) {
+      toast('Não foi possível fazer o login!');
+    }
+  }, []);
 
   async function submit(event) {
     event.preventDefault();
@@ -39,6 +56,22 @@ export default function SignIn() {
     } catch (err) {
       toast('Não foi possível fazer o login!');
     }
+  }
+
+  async function handleGitHubOAuth() {
+    const GITHUB_URL = process.env.REACT_APP_GITHUB_URL;
+
+    const params = {
+      response_type: 'code',
+      scope: 'user',
+      client_id: process.env.REACT_APP_GITHUB_CLIENT_ID,
+      redirect_uri: process.env.REACT_APP_GITHUB_REDIRECT_URL,
+    };
+
+    const queryString = qs.stringify(params);
+    const authUrl = `${GITHUB_URL}?${queryString}`;
+
+    window.location.href = authUrl;
   }
 
   return (
@@ -58,10 +91,17 @@ export default function SignIn() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit" color="primary" fullWidth disabled={loadingSignIn}>
+          <Button type="submit" color="primary" fullWidth disabled={loadingSignIn || gitHubSignInLoading}>
             Entrar
           </Button>
-          <OAuthButton bgcolor="#222222" color="white" logoImage={gitHubLogo} fullWidth>
+          <OAuthButton
+            bgcolor="#222222"
+            textcolor="white"
+            logoImage={gitHubLogo}
+            fullWidth
+            onClickHandler={handleGitHubOAuth}
+            disabled={loadingSignIn || gitHubSignInLoading}
+          >
             Entrar com GitHUb
           </OAuthButton>
         </form>

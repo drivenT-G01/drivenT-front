@@ -18,7 +18,7 @@ const StyledMuiButton = styled(MuiButton)`
   padding: 8px !important;
 
   background-color: ${({ bgcolor }) => bgcolor} !important;
-  color: ${({ color }) => color} !important;
+  color: ${({ textcolor }) => textcolor} !important;
 `;
 
 const LogoImage = styled.img`

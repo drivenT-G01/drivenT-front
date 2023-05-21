@@ -1,29 +1,31 @@
 import styled from 'styled-components';
 
-export default function IncludesHotel({ ticket: { TicketType: { isRemote, includesHotel } } }) {
-  return (isRemote || !includesHotel) ? (
-    <IncludesHotelContainer>  
+export default function IncludesHotel({ ticket }) {
+  if (!ticket) return null;
+  const {
+    TicketType: { isRemote, includesHotel },
+  } = ticket;
+  return isRemote || !includesHotel ? (
+    <IncludesHotelContainer>
       <Text>Sua modalidade de ingresso não inclui hospedagem. Prossiga para a escolha de atividades</Text>
     </IncludesHotelContainer>
-  ): null;
+  ) : null;
 }
 
 const IncludesHotelContainer = styled.main`
-    display: flex;
-    height: 40%;
-    width: auto;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  height: 40%;
+  width: auto;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Text = styled.h1`
-    width: 80%;
-    text-align: center;
-    line-height: 24px;
-    font-family: 'Roboto';
-    font-size: 1.3rem;
-    font-weight: 400;
-    color: #8E8E8E;
-
+  width: 80%;
+  text-align: center;
+  line-height: 24px;
+  font-family: 'Roboto';
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #8e8e8e;
 `;
-

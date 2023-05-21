@@ -7,13 +7,28 @@ import useHotelsById from '../../../hooks/api/useHotelsById';
 import { toast } from 'react-toastify';
 import UserContext from '../../../contexts/UserContext';
 import useHasBooking from '../../../hooks/api/useHasBooking';
+import useCreateNewBooking from '../../../hooks/api/useCreateNewBooking';
+import useUpdateBooking from '../../../hooks/api/useUpdateBooking';
 import HasBookingCard from './HasBookingCard';
+import hasBookingContext from '../../../contexts/UserHaveBookingContext';
+
+const Button = styled.button`
+  width: 182px;
+  height: 37px;
+
+  background: #e0e0e0;
+
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+`;
 
 export default function HotelsList({ hotels, ticket }) {
   const { hotelbyIdLoading, hotelByIdFunction } = useHotelsById();
-  const { userHasBookingLoading, userHasBookingFunction } = useHasBooking();
   const [bookingData, setBookingData] = useState();
-  const [hasBooking, setHasBooking] = useState(false);
+  const {userHasBookingFunction} = useHasBooking();
+  const {createNewBookingFunction} = useCreateNewBooking();
+  const {updateUserBookingFunction} = useUpdateBooking();
+  const { hasBooking, setHasBooking, isChangingRoom } = useContext(hasBookingContext);
   const [rooms, setRooms] = useState([]);
   const [hotelClicked, setHotelClicked] = useState(null);
   const [selectedHotel, setSelectedHotel] = useState(null);
@@ -25,8 +40,10 @@ export default function HotelsList({ hotels, ticket }) {
     try {
       const response = await userHasBookingFunction(userData.user.id);
       setBookingData(response);
-      setHasBooking(true);
+      if (hasBooking && isChangingRoom) setHasBooking(false);
+      else setHasBooking(true);
     } catch (error) {
+      console.log(error.message);
       toast('User has no booking');
     }
   }, []);
@@ -38,7 +55,6 @@ export default function HotelsList({ hotels, ticket }) {
     setHotelClicked(true);
     setSelectedRoom(null);
     setShowReservationButton(false);
-
     try {
       const response = await hotelByIdFunction(hotelId);
       setRooms(response.Rooms);
@@ -55,9 +71,28 @@ export default function HotelsList({ hotels, ticket }) {
     }
   };
 
-  const handleReservationClick = () => {
+  const handleReservationClick = async () => {
     const room = rooms.find((room) => room.id === selectedRoom);
-    console.log('Reserva efetuada para o quarto', room.name);
+    try {
+      await createNewBookingFunction(room.id);
+      console.log('Reserva efetuada para o quarto', room.name);
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      toast('Não foi possível efetuar a reserva, tente novamente em alguns segundos')
+    }
+  };
+
+  const handleChangeReservationClick = async () => {
+    const room = rooms.find((room) => room.id === selectedRoom);
+    try {
+      await updateUserBookingFunction(room.id, bookingData.id);
+      console.log('Troca efetuada para o quarto ', room.name);
+      window.location.reload();
+    } catch (error) {
+      console.log(error.data);
+      toast('Não foi possível efetuar a troca, tente novamente em alguns segundos')
+    }
   };
 
   return (
@@ -94,7 +129,11 @@ export default function HotelsList({ hotels, ticket }) {
               </Section>
               {showReservationButton && (
                 <Section>
-                  <Button onClick={handleReservationClick}>Reservar Quarto</Button>
+                  {isChangingRoom ? (
+                    <Button onClick={handleChangeReservationClick}>Trocar Quarto</Button>
+                  ) : (
+                    <Button onClick={handleReservationClick}>Reservar Quarto</Button>
+                  )}
                 </Section>
               )}
             </>
@@ -106,12 +145,3 @@ export default function HotelsList({ hotels, ticket }) {
     </>
   );
 }
-const Button = styled.button`
-  width: 182px;
-  height: 37px;
-
-  background: #e0e0e0;
-
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-`;

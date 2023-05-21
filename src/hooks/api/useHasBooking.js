@@ -4,7 +4,6 @@ import useToken from '../useToken';
 
 export default function userHasBooking() {
   const token = useToken();
-
   const {
     data: userHasBooking,
     loading: userHasBookingLoading,

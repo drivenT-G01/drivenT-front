@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useContext } from 'react';
+import hasBookingContext from '../../../contexts/UserHaveBookingContext';
 
 export default function HasBookingCard({ booking }) {
   const capacityMapping = {
@@ -6,8 +8,8 @@ export default function HasBookingCard({ booking }) {
     2: 'Double',
     3: 'Triple',
   };
-
   const roomType = capacityMapping[booking.Room.capacity] || 'Unknown';
+  const { setIsChangingRoom, setHasBooking } = useContext(hasBookingContext);
 
   let bookPhrase = 'Você';
   if (booking.Room.Booking.length > 1) {
@@ -15,23 +17,43 @@ export default function HasBookingCard({ booking }) {
     bookPhrase = `Você e mais ${peopleCount}`;
   }
 
-  console.log(booking);
+  function updateRoom(){
+    setHasBooking(false)
+    setIsChangingRoom(true)
+  }
 
   return (
-    <HotelCardContainer selected={true}>
-      <Image src={booking.Room.Hotel.image}></Image>
-      <h1>{booking.Room.Hotel.name}</h1>
-      <HotelDetailsContainer>
-        <h2>Quarto Reservado</h2>
-        <h3>
-          {booking.Room.name} ({roomType})
-        </h3>
-        <h2>Pessoas no seu quarto</h2>
-        <h3>{bookPhrase}</h3>
-      </HotelDetailsContainer>
-    </HotelCardContainer>
+    <>
+      <HotelCardContainer selected={true}>
+        <Image src={booking.Room.Hotel.image}></Image>
+        <h1>{booking.Room.Hotel.name}</h1>
+        <HotelDetailsContainer>
+          <h2>Quarto Reservado</h2>
+          <h3>
+            {booking.Room.name} ({roomType})
+          </h3>
+          <h2>Pessoas no seu quarto</h2>
+          <h3>{bookPhrase}</h3>
+        </HotelDetailsContainer>
+      </HotelCardContainer>
+      <ConfirmButton onClick={updateRoom}>TROCAR DE QUARTO</ConfirmButton>
+    </>
   );
 }
+const ConfirmButton = styled.button` 
+  width: 182px;
+  height: 37px;
+
+  background: #E0E0E0;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+`
+
 
 const HotelCardContainer = styled.main`
   display: flex;
@@ -43,6 +65,7 @@ const HotelCardContainer = styled.main`
   margin-right: 1rem;
   border-radius: 10px;
   cursor: pointer;
+  margin-bottom: 35px;
 
   h1 {
     font-family: 'Roboto';
@@ -62,7 +85,6 @@ const HotelCardContainer = styled.main`
     color: #3c3c3c;
     
   }
-
   h3 {
     font-family: 'Roboto';
     font-weight: 400;

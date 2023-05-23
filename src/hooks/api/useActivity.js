@@ -10,7 +10,7 @@ export default function useActivity() {
     loading: activitiesLoading,
     error: activitiesError,
     act: activitiesFunction,
-  } = useAsync(() => activityApi.getAllHotels(token));
+  } = useAsync(() => activityApi.getAllActivities(token));
 
   return { activities, activitiesLoading, activitiesError, activitiesFunction };
 }

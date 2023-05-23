@@ -6,6 +6,8 @@ export default function Availability({ hotel }) {
   const [availability, setAvailability] = useState({});
   const newAvailabilities = {};
 
+  console.log(hotel.Rooms);
+
   const calculateAvailability = () => {
     const available = hotel.Rooms.map((room) => {
       const bookings = room.Booking?.length ?? 0;

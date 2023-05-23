@@ -25,9 +25,9 @@ const Button = styled.button`
 export default function HotelsList({ hotels, ticket }) {
   const { hotelbyIdLoading, hotelByIdFunction } = useHotelsById();
   const [bookingData, setBookingData] = useState();
-  const {userHasBookingFunction} = useHasBooking();
-  const {createNewBookingFunction} = useCreateNewBooking();
-  const {updateUserBookingFunction} = useUpdateBooking();
+  const { userHasBookingFunction } = useHasBooking();
+  const { createNewBookingFunction } = useCreateNewBooking();
+  const { updateUserBookingFunction } = useUpdateBooking();
   const { hasBooking, setHasBooking, isChangingRoom } = useContext(hasBookingContext);
   const [rooms, setRooms] = useState([]);
   const [hotelClicked, setHotelClicked] = useState(null);
@@ -43,6 +43,7 @@ export default function HotelsList({ hotels, ticket }) {
       if (hasBooking && isChangingRoom) setHasBooking(false);
       else setHasBooking(true);
     } catch (error) {
+      // eslint-disable-next-line
       console.log(error.message);
       toast('User has no booking');
     }
@@ -71,27 +72,31 @@ export default function HotelsList({ hotels, ticket }) {
     }
   };
 
-  const handleReservationClick = async () => {
+  const handleReservationClick = async() => {
     const room = rooms.find((room) => room.id === selectedRoom);
     try {
       await createNewBookingFunction(room.id);
+      // eslint-disable-next-line
       console.log('Reserva efetuada para o quarto', room.name);
       window.location.reload();
     } catch (error) {
-      console.log(error);
-      toast('Não foi possível efetuar a reserva, tente novamente em alguns segundos')
+      // eslint-disable-next-line
+      console.error(error);
+      toast('Não foi possível efetuar a reserva, tente novamente em alguns segundos');
     }
   };
 
-  const handleChangeReservationClick = async () => {
+  const handleChangeReservationClick = async() => {
     const room = rooms.find((room) => room.id === selectedRoom);
     try {
       await updateUserBookingFunction(room.id, bookingData.id);
+      // eslint-disable-next-line
       console.log('Troca efetuada para o quarto ', room.name);
       window.location.reload();
     } catch (error) {
-      console.log(error.data);
-      toast('Não foi possível efetuar a troca, tente novamente em alguns segundos')
+      // eslint-disable-next-line
+      console.error(error.data);
+      toast('Não foi possível efetuar a troca, tente novamente em alguns segundos');
     }
   };
 

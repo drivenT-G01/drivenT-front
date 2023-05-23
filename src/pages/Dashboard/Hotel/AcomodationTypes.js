@@ -1,9 +1,9 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import HotelsContext from '../../../contexts/HotelsContext';
 import styled from 'styled-components';
 
 export default function AcomodationTypes() {
-  const { hotels, hotelsLoading } = useContext(HotelsContext);
+  const { hotels } = useContext(HotelsContext);
   if (!hotels || !hotels.length) return null;
 
   const capacities = {};

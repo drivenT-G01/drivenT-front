@@ -39,7 +39,7 @@ export default function MakeTheReserve() {
               {ticketTypes.map(
                 function({ id, isRemote, price }) {
                   const ticketMode = isRemote ? 'Online' : 'Presencial';
-                  if (this.modes.includes(ticketMode)) return;
+                  if (this.modes.includes(ticketMode)) return null;
                   this.modes.push(ticketMode);
                   return (
                     <Card
@@ -64,7 +64,7 @@ export default function MakeTheReserve() {
             <Section title="Ótimo! Agora escolha sua modalidade de hospedagem">
               {ticketTypes.map(
                 function({ id, isRemote, includesHotel, price }) {
-                  if (isRemote) return;
+                  if (isRemote) return null;
                   if (!this.minimumPrice) this.minimumPrice = price;
                   return (
                     <Card

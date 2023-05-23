@@ -1,12 +1,15 @@
 import { useContext } from 'react';
 import DashboardPageContainer from '../../../layouts/DashboardPageContainer';
 import TicketContext from '../../../contexts/TicketContext';
+import ActivitiesDisplay from './ActivitiesDisplay';
 
 export default function Activities() {
   const { ticket } = useContext(TicketContext);
 
   return (
-    <DashboardPageContainer title="Escolha de atividades" message={selectMessage(ticket)}></DashboardPageContainer>
+    <DashboardPageContainer title="Escolha de atividades" message={selectMessage(ticket)}>
+      <ActivitiesDisplay />
+    </DashboardPageContainer>
   );
 }
 

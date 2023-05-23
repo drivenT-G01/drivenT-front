@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
-import HotelsContext from '../../../contexts/HotelsContext';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 export default function Availability({ hotel }) {
@@ -24,23 +23,21 @@ export default function Availability({ hotel }) {
       calculateAvailability();
     }
   }, [hotel]);
-  
+
   return (
     <AvailabilityContainer>
-      <AvailabilityText key={hotel.id}>
-        {availability[hotel.id]|| ''}
-      </AvailabilityText>
+      <AvailabilityText key={hotel.id}>{availability[hotel.id] || ''}</AvailabilityText>
     </AvailabilityContainer>
   );
 }
 
 const AvailabilityText = styled.h3`
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    line-height: 14px;
-    color: #3C3C3C;
-    font-size: 0.7rem;
-    align-self: start;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  line-height: 14px;
+  color: #3c3c3c;
+  font-size: 0.7rem;
+  align-self: start;
 `;
 
 const AvailabilityContainer = styled.section`

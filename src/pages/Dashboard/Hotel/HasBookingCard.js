@@ -17,9 +17,9 @@ export default function HasBookingCard({ booking }) {
     bookPhrase = `Você e mais ${peopleCount}`;
   }
 
-  function updateRoom(){
-    setHasBooking(false)
-    setIsChangingRoom(true)
+  function updateRoom() {
+    setHasBooking(false);
+    setIsChangingRoom(true);
   }
 
   return (
@@ -40,11 +40,11 @@ export default function HasBookingCard({ booking }) {
     </>
   );
 }
-const ConfirmButton = styled.button` 
+const ConfirmButton = styled.button`
   width: 182px;
   height: 37px;
 
-  background: #E0E0E0;
+  background: #e0e0e0;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
 
@@ -52,8 +52,7 @@ const ConfirmButton = styled.button`
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
-`
-
+`;
 
 const HotelCardContainer = styled.main`
   display: flex;
@@ -83,7 +82,6 @@ const HotelCardContainer = styled.main`
     font-size: 0.9rem;
     line-height: 24px;
     color: #3c3c3c;
-    
   }
   h3 {
     font-family: 'Roboto';

@@ -1,10 +1,10 @@
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
 
-export default function Section({ title = '', children, textCenter = false }) {
+export default function Section({ title = '', children, textcenter }) {
   return (
     <Container>
-      <StyledTypography {...{ textCenter }}>{title}</StyledTypography>
+      <StyledTypography {...{ textcenter }}>{title}</StyledTypography>
       <ChildrenContainer>{children}</ChildrenContainer>
     </Container>
   );
@@ -14,7 +14,7 @@ const StyledTypography = styled(Typography)`
   margin-bottom: 10px !important;
   font-size: 20px !important;
   color: #8e8e8e;
-  text-align: ${({ textCenter }) => textCenter && 'center'};
+  text-align: ${({ textcenter }) => (textcenter ? 'center' : 'start')};
 `;
 
 const Container = styled.section`

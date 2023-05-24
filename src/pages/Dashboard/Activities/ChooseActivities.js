@@ -12,7 +12,7 @@ export default function ChooseActivity() {
     <ChooseActivityContainer>
       <h1>Primeiro, filtre pelo dia do evento</h1>
       <ActivityDayFilter schedule = {schedule}></ActivityDayFilter>
-      //ActivitiesDisplay é chamado aqui, aparecendo ao clicar no dia em questão
+      <ActivitiesDisplay/>
     </ChooseActivityContainer>
   );
 }

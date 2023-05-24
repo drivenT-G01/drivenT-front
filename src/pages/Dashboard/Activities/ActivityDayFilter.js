@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import ActivityDayCard from './ActivityDayCard';
 
-export default function ActivityDayFilter({ activities }) {
+export default function ActivityDayFilter({ schedule }) {
   const uniqueDates = new Set();
 
-  activities.forEach((activity) => {
-    const activityDate = new Date(activity.schedule.date).toDateString();
+  schedule.forEach((schedule) => {
+    const activityDate = new Date(schedule.date).toDateString();
     uniqueDates.add(activityDate);
   });
 
@@ -14,7 +14,7 @@ export default function ActivityDayFilter({ activities }) {
     const dateB = new Date(b);
     return dateA - dateB;
   }); 
-  console.log(uniqueDatesArray);
+
   return (
     <ActivityDayFilterContainer>
       {uniqueDatesArray.map((date) => (

@@ -1,36 +1,16 @@
 import styled from 'styled-components';
 import ActivityDayFilter from './ActivityDayFilter';
-import ActivityContext from '../../../contexts/ActivityContext';
-import { useEffect, useState } from 'react';
-import useScheduleById from '../../../hooks/api/useScheduleById';
+import { useContext } from 'react';
+import ScheduleContext from '../../../contexts/ScheduleContext';
 
 export default function ChooseActivity() {
-  const { scheduleByIdLoading, scheduleByIdFunction } = useScheduleById();
-  const [scheduleDays, setScheduleDays] = useState([]);
-  
-  useEffect(async() => {
-    if (!scheduleByIdLoading) {
-      try {
-        const scheduleId = await scheduleByIdFunction(1);
-        setScheduleDays(scheduleId);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-  }, []);
-  
-  console.log(scheduleDays);
-  
+  const { schedule, scheduleLoading } = useContext(ScheduleContext);
+  if (scheduleLoading) return <div>Loading...</div>;
+
   return (
     <ChooseActivityContainer>
-      {scheduleByIdLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          <h1>Primeiro, filtre pelo dia do evento</h1>
-          {/* <ActivityDayFilter></ActivityDayFilter> */}
-        </>
-      )}
+      <h1>Primeiro, filtre pelo dia do evento</h1>
+      <ActivityDayFilter schedule = {schedule}></ActivityDayFilter>
     </ChooseActivityContainer>
   );
 }

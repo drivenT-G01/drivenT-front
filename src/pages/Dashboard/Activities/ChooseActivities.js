@@ -1,30 +1,15 @@
-import styled from 'styled-components';
 import ActivityDayFilter from './ActivityDayFilter';
 import { useContext } from 'react';
 import ScheduleContext from '../../../contexts/ScheduleContext';
-import ActivitiesDisplay from './ActivitiesDisplay';
+import Section from '../../../components/Dashboard/Section';
 
 export default function ChooseActivity() {
-  const { schedule, scheduleLoading } = useContext(ScheduleContext);
+  const { schedule, scheduleLoading, selectedSchedule } = useContext(ScheduleContext);
   if (scheduleLoading) return <div>Loading...</div>;
 
   return (
-    <ChooseActivityContainer>
-      <h1>Primeiro, filtre pelo dia do evento</h1>
-      <ActivityDayFilter schedule = {schedule}></ActivityDayFilter>
-      <ActivitiesDisplay/>
-    </ChooseActivityContainer>
+    <Section title={!selectedSchedule && 'Primeiro, filtre pelo dia do evento'}>
+      <ActivityDayFilter {...{ schedule }}></ActivityDayFilter>
+    </Section>
   );
 }
-
-const ChooseActivityContainer = styled.main`
-    display: flex;
-    flex-direction: column;
-    h1{
-        font-family: 'Roboto', sans-serif;
-        font-weight: 400;
-        font-size: 1rem;
-        line-height: 24px;
-        color: #8E8E8E;
-    }
-`;

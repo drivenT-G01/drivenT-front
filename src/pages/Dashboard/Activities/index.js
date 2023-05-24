@@ -3,15 +3,16 @@ import DashboardPageContainer from '../../../layouts/DashboardPageContainer';
 import TicketContext from '../../../contexts/TicketContext';
 import ChooseActivity from './ChooseActivities';
 import { ScheduleProvider } from '../../../contexts/ScheduleContext';
-
+import ActivitiesDisplay from './ActivitiesDisplay';
 
 export default function Activities() {
-  const { ticket } = useContext(TicketContext);
+  const { ticket, selectedSchedule } = useContext(TicketContext);
 
   return (
     <ScheduleProvider>
       <DashboardPageContainer title="Escolha de atividades" message={selectMessage(ticket)}>
-        <ChooseActivity></ChooseActivity>
+        <ChooseActivity />
+        {selectedSchedule && <ActivitiesDisplay />}
       </DashboardPageContainer>
     </ScheduleProvider>
   );

@@ -6,7 +6,7 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 
 const ActivityCard = ({ name, startsAt, endsAt, slots, isAvailable = true, sizeFactor = 1, isSubscribed = false }) => {
   return (
-    <Container {...{ sizeFactor, isAvailable, isSubscribed }}>
+    <Container {...{ sizeFactor, isAvailable, isSubscribed }} disabled={!slots}>
       <LeftSide>
         <Title>{name}</Title>
         <p>
@@ -39,7 +39,8 @@ const ActivityCard = ({ name, startsAt, endsAt, slots, isAvailable = true, sizeF
 const Container = styled.button`
   border: none;
   width: 100%;
-  height: ${({ sizeFactor }) => `${sizeFactor * 80}px`};
+  margin-bottom: 10px;
+  height: ${({ sizeFactor }) => `${sizeFactor * 80 + (sizeFactor - 1) * 10}px`};
   display: flex;
   align-items: center;
   justify-content: space-between;

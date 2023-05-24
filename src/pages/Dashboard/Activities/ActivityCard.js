@@ -14,7 +14,7 @@ const ActivityCard = ({ name, startsAt, endsAt, slots, isAvailable = true, sizeF
         </p>
       </LeftSide>
       <Divisor {...{ isSubscribed }} />
-      <RightSide {...{ isAvailable }}>
+      <RightSide isAvailable={isAvailable || isSubscribed}>
         {isSubscribed ? (
           <>
             <AiOutlineCheckCircle size={20} strokeWidth={30} color="#078632" />

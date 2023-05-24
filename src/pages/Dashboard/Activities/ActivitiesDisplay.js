@@ -21,15 +21,14 @@ const ActivitiesDisplay = () => {
         <>
           <Section title="Auditório Principal" textcenter>
             <ActivitiesContainer>
-              {activitiesData.map(({ id, name, startsAt, endsAt, slots, local }) => {
+              {activitiesData.map(({ id, name, startsAt, endsAt, slots, local, isSubscribed }) => {
                 return (
                   local === 'AP' && (
                     <ActivityCard
                       key={id}
-                      {...{ name, startsAt, endsAt, slots }}
+                      {...{ name, startsAt, endsAt, slots, isSubscribed }}
                       isAvailable={slots > 0}
                       sizeFactor={getTimeStampRoundedInHours(startsAt, endsAt)}
-                      isSubscribed={false}
                     />
                   )
                 );
@@ -38,15 +37,14 @@ const ActivitiesDisplay = () => {
           </Section>
           <Section title="Auditório Lateral" textcenter>
             <ActivitiesContainer>
-              {activitiesData.map(({ id, name, startsAt, endsAt, slots, local }) => {
+              {activitiesData.map(({ id, name, startsAt, endsAt, slots, local, isSubscribed }) => {
                 return (
                   local === 'AL' && (
                     <ActivityCard
                       key={id}
-                      {...{ name, startsAt, endsAt, slots }}
+                      {...{ name, startsAt, endsAt, slots, isSubscribed }}
                       isAvailable={slots > 0}
                       sizeFactor={getTimeStampRoundedInHours(startsAt, endsAt)}
-                      isSubscribed={false}
                     />
                   )
                 );
@@ -55,15 +53,14 @@ const ActivitiesDisplay = () => {
           </Section>
           <Section title="Sala de Workshop" textcenter>
             <ActivitiesContainer>
-              {activitiesData.map(({ id, name, startsAt, endsAt, slots, local }) => {
+              {activitiesData.map(({ id, name, startsAt, endsAt, slots, local, isSubscribed }) => {
                 return (
                   local === 'SW' && (
                     <ActivityCard
                       key={id}
-                      {...{ name, startsAt, endsAt, slots }}
+                      {...{ name, startsAt, endsAt, slots, isSubscribed }}
                       isAvailable={slots > 0}
                       sizeFactor={getTimeStampRoundedInHours(startsAt, endsAt)}
-                      isSubscribed={false}
                     />
                   )
                 );

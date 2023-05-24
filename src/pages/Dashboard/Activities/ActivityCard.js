@@ -47,7 +47,7 @@ const Container = styled.button`
   background-color: ${({ isSubscribed }) => (isSubscribed ? '#D0FFDB' : '#f1f1f1')};
   border-radius: 5px;
   padding: 12px 10px;
-  cursor: ${({ isAvailable }) => (isAvailable ? 'pointer' : 'not-allowed')};
+  cursor: ${({ isAvailable, isSubscribed }) => (isSubscribed ? 'default' : isAvailable ? 'pointer' : 'not-allowed')};
 `;
 
 const RightSide = styled.div`

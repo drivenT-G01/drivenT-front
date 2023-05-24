@@ -14,6 +14,7 @@ import Certificate from './pages/Dashboard/Certificate';
 import { EventInfoProvider } from './contexts/EventInfoContext';
 import { UserProvider } from './contexts/UserContext';
 import { TicketProvider } from './contexts/TicketContext';
+import { ScheduleProvider } from './contexts/ScheduleContext';
 
 import useToken from './hooks/useToken';
 
@@ -41,7 +42,14 @@ export default function App() {
                   <Route path="subscription" element={<FillSubscription />} />
                   <Route path="payment" element={<Payment />} />
                   <Route path="hotel" element={<Hotel />} />
-                  <Route path="activities" element={<Activities />} />
+                  <Route
+                    path="activities"
+                    element={
+                      <ScheduleProvider>
+                        <Activities />
+                      </ScheduleProvider>
+                    }
+                  />
                   <Route path="certificate" element={<Certificate />} />
                   <Route index path="*" element={<Navigate to="/dashboard/subscription" />} />
                 </Route>

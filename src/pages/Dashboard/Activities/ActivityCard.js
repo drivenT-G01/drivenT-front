@@ -6,7 +6,7 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 
 const ActivityCard = ({ name, startsAt, endsAt, slots, isAvailable = true, sizeFactor = 1, isSubscribed = false }) => {
   return (
-    <Container {...{ sizeFactor, isAvailable, isSubscribed }}>
+    <Container {...{ sizeFactor, isAvailable, isSubscribed }} disabled={!slots}>
       <LeftSide>
         <Title>{name}</Title>
         <p>
@@ -14,7 +14,7 @@ const ActivityCard = ({ name, startsAt, endsAt, slots, isAvailable = true, sizeF
         </p>
       </LeftSide>
       <Divisor {...{ isSubscribed }} />
-      <RightSide {...{ isAvailable }}>
+      <RightSide isAvailable={isAvailable || isSubscribed}>
         {isSubscribed ? (
           <>
             <AiOutlineCheckCircle size={20} strokeWidth={30} color="#078632" />
@@ -39,14 +39,15 @@ const ActivityCard = ({ name, startsAt, endsAt, slots, isAvailable = true, sizeF
 const Container = styled.button`
   border: none;
   width: 100%;
-  height: ${({ sizeFactor }) => `${sizeFactor * 80}px`};
+  margin-bottom: 10px;
+  height: ${({ sizeFactor }) => `${sizeFactor * 80 + (sizeFactor - 1) * 10}px`};
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: ${({ isSubscribed }) => (isSubscribed ? '#D0FFDB' : '#f1f1f1')};
   border-radius: 5px;
   padding: 12px 10px;
-  cursor: ${({ isAvailable }) => (isAvailable ? 'pointer' : 'not-allowed')};
+  cursor: ${({ isAvailable, isSubscribed }) => (isSubscribed ? 'default' : isAvailable ? 'pointer' : 'not-allowed')};
 `;
 
 const RightSide = styled.div`

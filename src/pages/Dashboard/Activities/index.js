@@ -4,6 +4,7 @@ import TicketContext from '../../../contexts/TicketContext';
 import ChooseActivity from './ChooseActivities';
 import { ScheduleProvider } from '../../../contexts/ScheduleContext';
 
+
 export default function Activities() {
   const { ticket } = useContext(TicketContext);
 
@@ -13,7 +14,6 @@ export default function Activities() {
         <ChooseActivity></ChooseActivity>
       </DashboardPageContainer>
     </ScheduleProvider>
-
   );
 }
 

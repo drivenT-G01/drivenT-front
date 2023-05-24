@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import ActivityDayFilter from './ActivityDayFilter';
 import { useContext } from 'react';
 import ScheduleContext from '../../../contexts/ScheduleContext';
+import ActivitiesDisplay from './ActivitiesDisplay';
 
 export default function ChooseActivity() {
   const { schedule, scheduleLoading } = useContext(ScheduleContext);
@@ -11,6 +12,7 @@ export default function ChooseActivity() {
     <ChooseActivityContainer>
       <h1>Primeiro, filtre pelo dia do evento</h1>
       <ActivityDayFilter schedule = {schedule}></ActivityDayFilter>
+      //ActivitiesDisplay é chamado aqui, aparecendo ao clicar no dia em questão
     </ChooseActivityContainer>
   );
 }

@@ -36,5 +36,4 @@ export default function ActivityDayFilter({ schedule }) {
 const ActivityDayFilterContainer = styled.main`
   display: flex;
   margin-top: 10px;
-  margin-bottom: 15px;
 `;

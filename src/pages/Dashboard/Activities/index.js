@@ -2,19 +2,18 @@ import { useContext } from 'react';
 import DashboardPageContainer from '../../../layouts/DashboardPageContainer';
 import TicketContext from '../../../contexts/TicketContext';
 import ChooseActivity from './ChooseActivities';
-import { ScheduleProvider } from '../../../contexts/ScheduleContext';
+import ScheduleContext from '../../../contexts/ScheduleContext';
 import ActivitiesDisplay from './ActivitiesDisplay';
 
 export default function Activities() {
-  const { ticket, selectedSchedule } = useContext(TicketContext);
+  const { ticket } = useContext(TicketContext);
+  const { selectedSchedule } = useContext(ScheduleContext);
 
   return (
-    <ScheduleProvider>
-      <DashboardPageContainer title="Escolha de atividades" message={selectMessage(ticket)}>
-        <ChooseActivity />
-        {selectedSchedule && <ActivitiesDisplay />}
-      </DashboardPageContainer>
-    </ScheduleProvider>
+    <DashboardPageContainer title="Escolha de atividades" message={selectMessage(ticket)}>
+      <ChooseActivity />
+      {selectedSchedule && <ActivitiesDisplay />}
+    </DashboardPageContainer>
   );
 }
 

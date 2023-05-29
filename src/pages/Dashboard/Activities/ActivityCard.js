@@ -3,8 +3,23 @@ import styled from 'styled-components';
 import { CgEnter } from 'react-icons/cg';
 import { ImCancelCircle } from 'react-icons/im';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
+import useCreateNewActivity from '../../../hooks/api/useCreateActivity';
+import { toast } from 'react-toastify';
 
-const ActivityCard = ({ name, startsAt, endsAt, slots, isAvailable = true, sizeFactor = 1, isSubscribed = false }) => {
+const ActivityCard = ({ id, name, startsAt, endsAt, slots, isAvailable = true, sizeFactor = 1, isSubscribed = false }) => {
+  
+  const { createNewActivitiesFunction } = useCreateNewActivity()
+
+  async function makeTheReserve(){
+    try{
+      await createNewActivitiesFunction(id)
+
+      toast(`Inscrição para ${name} realizada com sucesso!`)
+    }catch(err){
+      toast(`ocorreu um erro, tente novamente em alguns segundos COD: ${err.message}`)
+    }
+  }
+  
   return (
     <Container {...{ sizeFactor, isAvailable, isSubscribed }} disabled={!slots}>
       <LeftSide>
@@ -21,10 +36,10 @@ const ActivityCard = ({ name, startsAt, endsAt, slots, isAvailable = true, sizeF
             <p>Inscrito</p>
           </>
         ) : isAvailable ? (
-          <>
+          <div onClick={makeTheReserve}>
             <CgEnter size={20} color="#078632" />
             <p>{slots} vagas</p>
-          </>
+          </div>
         ) : (
           <>
             <ImCancelCircle size={20} color="#CC6666" />

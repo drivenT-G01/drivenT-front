@@ -1,0 +1,16 @@
+import * as activitiesApi from '../../services/activitiesApi';
+import useAsync from '../useAsync';
+import useToken from '../useToken';
+
+export default function useCreateNewActivity() {
+  const token = useToken();
+
+  const {
+    data: activities,
+    loading: activitiesLoading,
+    error: activitiesError,
+    act: createNewActivitiesFunction,
+  } = useAsync((id) => activitiesApi.scheduleNewActivityForUser(id, token));
+
+  return { activities, activitiesLoading, activitiesError, activitiesFunction };
+}

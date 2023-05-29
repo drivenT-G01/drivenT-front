@@ -77,7 +77,7 @@ export default function HotelsList({ hotels, ticket }) {
     try {
       await createNewBookingFunction(room.id);
       // eslint-disable-next-line
-      console.log('Reserva efetuada para o quarto', room.name);
+      toast('Reserva efetuada para o quarto', room.name);
       window.location.reload();
     } catch (error) {
       // eslint-disable-next-line
